@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+# router_port_config.py
+
+from netmiko import ConnectHandler
+from netmiko.exceptions import NetMikoTimeoutException, NetMikoAuthenticationException
+import getpass
+
+def configure_ports(conn, port_configs):
+    for p in port_configs:
+        interface = p["interface"]
+        commands = [f"interface {interface}"]
+
+        if "description" in p:
+            commands.append(f"description {p['description']}")
+
+        if p.get("mode") == "access":
+            commands += [
+                "switchport mode access",
+                f"switchport access vlan {p['vlan']}"
+            ]
+        elif p.get("mode") == "trunk":
+            commands += [
+                "switchport mode trunk",
+                f"switchport trunk allowed vlan {p['allowed_vlans']}"
+            ]
+
+        commands.append("no shutdown" if not p.get("shutdown", False) else "shutdown")
+        commands.append("exit")
+
+        print(f"\nKonfiguralas: {interface}")
+        print(conn.send_config_set(commands))
+
+def main():
+    host = input("Router IP/hostname: ")
+    username = input("SSH user: ")
+    password = getpass.getpass("SSH password: ")
+
+    device = {
+        "device_type": "cisco_ios",
+        "host": host,
+        "username": username,
+        "password": password,
+        "fast_cli": False,
+    }
+
+    # Pelda port konfiguraciok
+    port_configs = [
+        {
+            "interface": "GigabitEthernet0/1",
+            "description": "Uplink",
+            "mode": "trunk",
+            "allowed_vlans": "10,20,30",
+            "shutdown": False
+        },
+        {
+            "interface": "GigabitEthernet0/2",
+            "description": "PC-01",
+            "mode": "access",
+            "vlan": 10,
+            "shutdown": False
+        }
+    ]
+
+    try:
+        conn = ConnectHandler(**device)
+        configure_ports(conn, port_configs)
+
+        save = input("\nMented a running-configot? (i/n): ").strip().lower()
+        if save == "i":
+            print(conn.save_config())
+
+        conn.disconnect()
+
+    except NetMikoTimeoutException:
+        print("Hiba: nem erheto el a router (timeout).")
+    except NetMikoAuthenticationException:
+        print("Hiba: hibas SSH user/jelszo.")
+    except Exception as e:
+        print(f"Varatlan hiba: {e}")
+
+if __name__ == "__main__":
+    main()
