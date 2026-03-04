@@ -1,0 +1,26 @@
+# Cisco SSH alap konfiguráció
+
+enable
+configure terminal
+
+! domain name (kell az SSH kulcshoz)
+ip domain-name lab.local
+
+! RSA kulcs generálás
+crypto key generate rsa modulus 2048
+
+! admin user létrehozása
+username admin privilege 15 secret admin123
+
+! SSH verzió
+ip ssh version 2
+
+! VTY vonalak konfigurálása
+line vty 0 4
+transport input ssh
+login local
+exit
+
+! konfiguráció mentése
+end
+write memory
