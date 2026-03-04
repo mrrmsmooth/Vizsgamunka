@@ -2,54 +2,54 @@ Router_1
 
 enable
 configure terminal
+
 ip route 0.0.0.0 0.0.0.0 99.99.90.1
-ip route 10.2.0.0 255.255.0.0 192.168.1.2
+
 interface Serial0/2/0
-no shutdown
-ip address 99.99.90.2 255.255.255.0
         ip nat outside
+        no shutdown
+        ip address 99.99.90.2 255.255.255.0
 interface fastEthernet 0/0
-no shutdown
+        no shutdown
 interface fastEthernet 0/0.110
-ip nat inside
-encapsulation dot1Q 110
-ip address 10.1.110.1 255.255.255.0
+        ip nat inside
+        encapsulation dot1Q 110
+        ip address 10.1.110.1 255.255.255.0
 interface fastEthernet 0/0.120
-ip nat inside
-encapsulation dot1Q 120
-ip address 10.1.120.1 255.255.255.0
-ip helper-address 10.1.130.20
+        ip nat inside
+        encapsulation dot1Q 120
+        ip address 10.1.120.1 255.255.255.0
+        ip helper-address 10.1.130.20
 interface fastEthernet 0/0.130
-ip nat inside
-encapsulation dot1Q 130
-ip address 10.1.130.1 255.255.255.0
+        ip nat inside
+        encapsulation dot1Q 130
+        ip address 10.1.130.1 255.255.255.0
 interface fastEthernet 0/0.140
-ip nat inside
-encapsulation dot1Q 140
-ip address 10.1.140.1 255.255.255.0
+        ip nat inside
+        encapsulation dot1Q 140
+        ip address 10.1.140.1 255.255.255.0
 interface fastEthernet 0/0.150
-ip nat inside
-ip helper-address 10.1.130.20
-encapsulation dot1Q 150
-ip address 10.1.150.1 255.255.255.0
+        ip nat inside
+        ip address 10.1.150.1 255.255.255.0
+        encapsulation dot1Q 150
+        ip helper-address 10.1.130.20
 interface fastEthernet 0/0.160
-ip nat inside
-ip helper-address 10.1.130.20
-encapsulation dot1Q 160
-ip address 10.1.160.1 255.255.255.0
+        ip nat inside
+        ip address 10.1.160.1 255.255.255.0
+        encapsulation dot1Q 160
+        ip helper-address 10.1.130.20
 
 interface tunnel0
-ip address 192.168.1.1 255.255.255.252
-tunnel source Serial0/2/0
-tunnel destination 99.99.91.2
+        ip address 192.168.1.1 255.255.255.252
+        tunnel source Serial0/2/0
+        tunnel destination 99.99.91.2
 
 router ospf 1
-router-id 1.1.1.1
-network 192.168.1.0 0.0.0.3 area 0
-network 10.1.0.0 0.0.255.255 area 0
-network 193.128.40.0 0.0.0.15 area 0
-exit
-
+        router-id 1.1.1.1
+        network 192.168.1.0 0.0.0.3 area 0
+        network 10.1.0.0 0.0.255.255 area 0
+        !network 193.128.40.0 0.0.0.15 area 0
+        exit
 
 !DINAMIC
 ip access-list standard NAT-LAN
