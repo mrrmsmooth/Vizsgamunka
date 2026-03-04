@@ -1,0 +1,33 @@
+# Cisco SSH alap konfiguráció
+
+enable
+configure terminal
+
+! domain name (kell az SSH kulcshoz)
+ip domain-name lab.local
+
+! RSA kulcs generálás
+crypto key generate rsa modulus 2048
+
+! admin user létrehozása
+username admin privilege 15 secret admin123
+
+! SSH verzió
+ip ssh version 2
+
+! VTY vonalak konfigurálása
+line vty 0 4
+transport input ssh
+login local
+exit
+
+! konfiguráció mentése
+end
+write memory
+
+
+!ezutan a linux szerveren
+!nc -vz 10.1.130.1 22
+!ha jo ezt kapom vissza a servertol: Connection to 10.1.130.1 22 port [tcp/ssh] succeeded!
+!es utana ezzel futassam a scriptet a szerver cmdben:
+!/opt/netauto/run_ports.sh

@@ -1,0 +1,28 @@
+@echo off
+setlocal
+
+REM --- Üzenet ---
+msg * Udvozlunk a Turofalvi Etterem rendszereben, %username%!
+
+timeout /t 2 >nul
+
+REM --- Weboldal ---
+start "" "http://turofalvi.local"
+
+REM --- Közös mappa felcsatolása Z: meghajtóra ---
+net use Z: /delete /y >nul 2>&1
+net use Z: "\\TUROFALVI-SRV\Shared Folder" /persistent:no
+
+REM --- (Opció) szoftverek mappa felcsatolása Y:-ra ---
+REM net use Y: /delete /y >nul 2>&1
+REM net use Y: "\\TUROFALVI-SRV\Softwares" /persistent:no
+
+REM --- Nyomtató feltelepítése (kapcsolat létrehozása) ---
+rundll32 printui.dll,PrintUIEntry /in /n "\\TUROFALVI-SRV\Turofalvi-Printer"
+
+endlocal
+
+exit /b 0
+
+
+!linux Udvozoljuk script uzenet 
