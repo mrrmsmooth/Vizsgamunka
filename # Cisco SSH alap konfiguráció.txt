@@ -24,3 +24,10 @@ exit
 ! konfiguráció mentése
 end
 write memory
+
+
+!ezutan a linux szerveren
+!nc -vz 10.1.130.1 22
+!ha jo ezt kapom vissza a servertol: Connection to 10.1.130.1 22 port [tcp/ssh] succeeded!
+!es utana ezzel futassam a scriptet a szerver cmdben:
+!/opt/netauto/run_ports.sh
