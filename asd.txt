@@ -21,4 +21,8 @@ REM --- Nyomtató feltelepítése (kapcsolat létrehozása) ---
 rundll32 printui.dll,PrintUIEntry /in /n "\\TUROFALVI-SRV\Turofalvi-Printer"
 
 endlocal
+
 exit /b 0
+
+
+!linux Udvozoljuk script uzenet 
