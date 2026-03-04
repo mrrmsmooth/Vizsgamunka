@@ -1,0 +1,30 @@
+switch_4
+
+enable
+configure terminal
+ip default-gateway 10.2.115.1
+vlan 115
+name Management2
+in vlan 115
+ip address 10.2.115.2 255.255.255.0
+exit
+vlan 125
+name Admin2
+in vlan 125
+exit
+vlan 160
+name FactoryOffice
+in vlan 160
+exit
+
+interface gigabitEthernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 115,125,160
+no shutdown
+
+interface range fastEthernet 0/1-12
+switchport mode access
+switchport access vlan 125
+interface range fastEthernet 0/13-24
+switchport mode access
+switchport access vlan 160

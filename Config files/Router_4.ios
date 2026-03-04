@@ -1,0 +1,25 @@
+Router_4
+
+enable
+configure terminal
+router ospf 1
+router-id 4.4.4.4
+network 10.3.0.0 0.0.255.255 area 0
+network 10.10.1.4 0.0.0.3 area 0
+
+interface Serial 0/2/0
+no shutdown
+ip address 10.10.1.6 255.255.255.252
+ip ospf network point-to-point
+exit
+
+interface fastEthernet 0/1
+no shutdown
+interface fastEthernet 0/1.116
+    encapsulation dot1Q 116
+    ip address 10.3.116.1 255.255.255.0
+interface fastEthernet 0/1.165
+    encapsulation dot1Q 165
+    ip address 10.3.165.1 255.255.255.0
+    ip helper-address 10.1.130.20
+exit

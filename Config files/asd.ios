@@ -1,0 +1,479 @@
+Router_MAIN
+
+enable
+configure terminal
+interface gigabitEthernet 0/3/0
+no shutdown
+ip address 99.99.90.1 255.255.255.0
+interface gigabitEthernet 0/4/0
+no shutdown
+ip address 99.99.91.1 255.255.255.0
+interface gigabitEthernet 0/1/0
+no shutdown
+ip address 99.99.92.1 255.255.255.0
+exit
+
+ip route 10.1.0.0 255.255.0.0 99.99.90.2
+ip route 10.2.0.0 255.255.0.0 99.99.91.2
+ip route 10.3.0.0 255.255.0.0 99.99.91.2
+ip route 10.10.0.0 255.255.0.0 99.99.91.2
+
+Router_1
+
+enable
+configure terminal
+ip route 0.0.0.0 0.0.0.0 99.99.90.1
+ip route 10.2.0.0 255.255.0.0 192.168.1.2
+interface gigabitEthernet 0/0/0
+no shutdown
+ip address 99.99.90.2 255.255.255.0
+interface gigabitEthernet 0/0.110
+encapsulation dot1Q 110
+ip address 10.1.110.1 255.255.255.0
+interface gigabitEthernet 0/0.120
+encapsulation dot1Q 120
+ip address 10.1.120.1 255.255.255.0
+ip helper-address 10.1.130.20
+interface gigabitEthernet 0/0.130
+encapsulation dot1Q 130
+ip address 10.1.130.1 255.255.255.0
+interface gigabitEthernet 0/0.140
+encapsulation dot1Q 140
+ip address 10.1.140.1 255.255.255.0
+interface gigabitEthernet 0/0.150
+ip helper-address 10.1.130.20
+encapsulation dot1Q 150
+ip address 10.1.150.1 255.255.255.0
+interface gigabitEthernet 0/0.160
+ip helper-address 10.1.130.20
+encapsulation dot1Q 160
+ip address 10.1.160.1 255.255.255.0
+interface gigabitEthernet 0/0.170
+ip helper-address 10.1.130.20
+
+interface tunnel0
+ip address 192.168.1.1 255.255.255.252
+tunnel source gig0/0/0
+tunnel destination 99.99.91.2
+exit
+
+
+Switch_1
+
+enable
+configure terminal
+vlan 110
+name Management
+in vlan 110
+exit
+vlan 120
+name Admin
+in vlan 120
+exit
+vlan 130
+name Server
+in vlan 130
+exit
+vlan 140
+name Firstfloor
+in vlan 140
+exit
+vlan 150
+name SecondFloor
+in vlan 150
+exit
+vlan 160
+name FactoryOffice
+in vlan 160
+exit
+
+
+interface vlan 110
+ip address 10.1.110.4 255.255.255.0
+exit
+ip default-gateway 10.1.110.1
+
+interface gigabitEthernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+no shutdown
+
+exit
+spanning-tree mode rapid-pvst
+spanning-tree vlan 110 priority 4096
+
+interface range fastEthernet 0/1-2
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+exit
+interface range fastEthernet 0/3-4
+channel-group 2 mode active
+exit
+interface port-channel 2
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+exit
+
+interface range fastEthernet 0/5-24
+switchport mode access
+switchport access vlan 140
+exit
+
+Switch_2
+
+enable
+configure terminal
+vlan 110
+name Management
+in vlan 110
+exit
+vlan 120
+name Admin
+in vlan 120
+exit
+vlan 130
+name Server
+in vlan 130
+exit
+vlan 140
+name Firstfloor
+in vlan 140
+exit
+vlan 150
+name SecondFloor
+in vlan 150
+exit
+vlan 160
+name FactoryOffice
+in vlan 160
+exit
+
+
+interface vlan 110
+ip address 10.1.110.5 255.255.255.0
+exit
+ip default-gateway 10.1.110.1
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 110 priority 8192
+
+interface range fastEthernet 0/1-2
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+exit
+interface range fastEthernet 0/3-4
+channel-group 3 mode active
+exit
+interface port-channel 3
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+exit
+
+interface range fastEthernet 0/5-24
+switchport mode access
+switchport access vlan 150
+exit
+
+Switch_3
+
+enable
+configure terminal
+vlan 110
+name Management
+in vlan 110
+exit
+vlan 120
+name Admin
+in vlan 120
+exit
+vlan 130
+name Server
+in vlan 130
+exit
+vlan 140
+name Firstfloor
+in vlan 140
+exit
+vlan 150
+name SecondFloor
+in vlan 150
+exit
+vlan 160
+name FactoryOffice
+in vlan 160
+exit
+
+
+interface vlan 110
+ip address 10.1.110.6 255.255.255.0
+exit
+ip default-gateway 10.1.110.1
+
+spanning-tree mode rapid-pvst
+
+interface range fastEthernet 0/1-2
+channel-group 2 mode active
+exit
+interface port-channel 2
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+exit
+interface range fastEthernet 0/3-4
+channel-group 3 mode active
+exit
+interface port-channel 3
+switchport mode trunk
+switchport trunk allowed vlan 110,120,130,140,150,160
+exit
+interface range fastEthernet 0/5-6
+switchport mode access
+switchport access vlan 130
+interface range fastEthernet 0/7-24
+switchport mode access
+switchport access vlan 120
+exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Router_2
+
+enable
+configure terminal
+ip route 0.0.0.0 0.0.0.0 99.99.91.1
+router ospf 1
+router-id 2.2.2.2
+network 10.10.1.0 0.0.0.3 area 0
+network 10.10.1.4 0.0.0.3 area 0
+network 10.1.0.0 0.0.255.255 area 0
+passive-interface default
+no passive-interface gigabitEthernet0/0
+no passive-interface gigabitEthernet0/1
+default-information originate
+
+
+interface gigabitEthernet 0/0/0
+no shutdown
+ip address 99.99.91.2 255.255.255.0
+interface gigabitEthernet 0/0
+ip network point-to-point
+no shutdown
+ip address 10.10.1.1 255.255.255.252
+ip ospf network point-to-point
+interface gigabitEthernet 0/1
+no shutdown
+ip address 10.10.1.5 255.255.255.252
+ip ospf network point-to-point
+exit
+
+interface tunnel0
+ip address 192.168.1.2 255.255.255.252
+tunnel source gig0/0/0
+tunnel destination 99.99.90.2
+exit
+
+Router_3
+
+enable
+configure terminal
+router ospf 1
+router-id 3.3.3.3
+network 10.2.0.0 0.0.255.255 area 0
+network 10.10.1.0 0.0.0.3 area 0
+passive-interface default
+no passive-interface gigabitEthernet0/0
+
+interface gigabitEthernet 0/0
+no shutdown
+ip address 10.10.1.2 255.255.255.252
+ip ospf network point-to-point
+exit
+
+interface gigabitEthernet 0/1
+no shutdown
+interface gigabitEthernet 0/1.115
+    encapsulation dot1Q 115
+    ip address 10.2.115.1 255.255.255.0
+interface gigabitEthernet 0/1.125
+    encapsulation dot1Q 125
+    ip address 10.2.125.1 255.255.255.0
+    ip helper-address 10.1.130.20
+interface gigabitEthernet 0/1.160
+    encapsulation dot1Q 160
+    ip address 10.2.160.1 255.255.255.0
+    ip helper-address 10.1.130.20
+exit
+
+Router_4
+
+enable
+configure terminal
+router ospf 1
+router-id 4.4.4.4
+network 10.3.0.0 0.0.255.255 area 0
+network 10.10.1.4 0.0.0.3 area 0
+passive-interface default
+no passive-interface gigabitEthernet0/0
+
+
+interface gigabitEthernet 0/0
+no shutdown
+ip address 10.10.1.6 255.255.255.252
+ip ospf network point-to-point
+exit
+
+interface gigabitEthernet 0/1
+no shutdown
+interface gigabitEthernet 0/1.116
+    encapsulation dot1Q 116
+    ip address 10.3.116.1 255.255.255.0
+interface gigabitEthernet 0/1.165
+    encapsulation dot1Q 165
+    ip address 10.3.165.1 255.255.255.0
+    ip helper-address 10.1.130.20
+exit
+
+switch_4
+
+enable
+configure terminal
+ip default-gateway 10.2.115.1
+vlan 115
+name Management2
+in vlan 115
+ip address 10.2.115.2 255.255.255.0
+exit
+vlan 125
+name Admin2
+in vlan 125
+exit
+vlan 160
+name FactoryOffice
+in vlan 160
+exit
+
+interface gigabitEthernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 115,125,160
+no shutdown
+
+interface range fastEthernet 0/1-12
+switchport mode access
+switchport access vlan 125
+interface range fastEthernet 0/13-24
+switchport mode access
+switchport access vlan 160
+
+switch_5
+
+enable
+configure terminal
+ip default-gateway 10.3.116.1
+vlan 116
+name Management3
+in vlan 116
+ip address 10.3.116.2 255.255.255.0
+exit
+vlan 165
+name FactoryOffice2
+in vlan 165
+exit
+
+interface gigabitEthernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 116,165
+no shutdown
+
+interface range fastEthernet 0/1-24
+switchport mode access
+switchport access vlan 165
+
+
+
+Router_5
+
+enable
+configure terminal
+ipv6 unicast-routing
+
+interface gigabitEthernet 0/0/0
+    ipv6 enable
+no shutdown
+ip address 99.99.92.2 255.255.255.252
+exit
+interface gigabitEthernet 0/0
+    ipv6 enable
+    ipv6 address 2a00:1aa8:af14:8b3d::1/64
+no shutdown
+interface gigabitEthernet 0/0.110
+    ipv6 enable
+    ipv6 address 2a00:10b8:abdd:0110::1/64
+    encapsulation dot1Q 110
+    ip address 10.1.110.1 255.255.255.0
+interface gigabitEthernet 0/0.120
+    ipv6 enable
+    ipv6 address 2a00:10b8:abdd:0120::1/64
+    encapsulation dot1Q 120
+    ip address 10.1.120.1 255.255.255.0
+interface gigabitEthernet 0/0.130
+    ipv6 enable
+    ipv6 address 2a00:10b8:abdd:0130::1/64
+    encapsulation dot1Q 130
+    ip address 10.1.130.1 255.255.255.0
+    
+
+ipv6 route ::/0 gigabitEthernet0/0
+ip route 0.0.0.0 0.0.0.0 203.0.113.42
+
+
+
+switch_6
+
+enable
+configure terminal
+vlan 110
+name Management
+in vlan 110
+ip address 10.1.110.2 255.255.255.0
+vlan 120
+name Cash
+in vlan 120
+exit
+vlan 130
+name wifi
+in vlan 130
+exit
+
+
+ip default-gateway 10.1.110.1
+interface range fastEthernet 0/1-24
+switchport mode access
+switchport access vlan 120
+interface gigabitEthernet 0/1
+switchport mode trunk
+swichport trunk allow vlan 110,120,130
+interface gigabitEthernet 0/2
+switchport mode access
+switchport access vlan 130

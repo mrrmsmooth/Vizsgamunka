@@ -1,0 +1,18 @@
+Vlanok:
+Vlan 110 :10.1.110.0/24		Management
+	vlan 115 :10.2.115.0/24		Management2
+		vlan 116 :10.3.116.0/24		Management3
+Vlan 120 :10.1.120.0/24		Admin
+	Vlan 125 :10.2.125.0/24		Admin2
+Vlan 130 :10.1.130.0/24		Server
+Vlan 140 :10.1.140.0/24		Firstfloor
+Vlan 150 :10.1.150.0/24		SecondFloor
+	Vlan 160 :10.2.160.0/24		FactoryOffice
+		Vlan 165 :10.3.165.0/24		FactoryOffice2
+
+
+
+
+vlan 110 :10.1.110.0/24 Management	fd10:1:110::/64
+vlan 120 :10.1.120.0/24 Cash		fd10:1:120::/64
+vlan 130 :10.1.130.0/24 Wifi		fd10:1:130::/64

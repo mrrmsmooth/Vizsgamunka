@@ -1,0 +1,2 @@
+1 ip címzés
+2 spanning-tree + stp
