@@ -3,7 +3,6 @@ Router_1
 enable
 configure terminal
 
-ip route 0.0.0.0 0.0.0.0 99.99.90.1
 
 interface Serial0/2/0
         ip nat outside
@@ -44,23 +43,52 @@ interface tunnel0
         tunnel source Serial0/2/0
         tunnel destination 99.99.91.2
 
-router ospf 1
-        router-id 1.1.1.1
-        network 192.168.1.0 0.0.0.3 area 0
-        network 10.1.0.0 0.0.255.255 area 0
-        !network 193.128.40.0 0.0.0.15 area 0
-        exit
-
-!DINAMIC
-ip access-list standard NAT-LAN
-deny 10.1.130.10
-deny 10.1.130.20
-permit 10.1.0.0 0.0.255.255
-ip nat pool NATPOOL 193.128.40.3 193.128.40.14 netmask 255.255.255.240
-ip nat inside source list NAT-LAN pool NATPOOL overload
-
-!STATIC
 ip nat inside source static 10.1.130.10 193.128.40.1
 ip nat inside source static 10.1.130.20 193.128.40.2
 
+ip nat pool R1_POOL 193.128.40.3 193.128.40.14 netmask 255.255.255.240
 
+access-list 100 deny ip 10.1.0.0 0.0.255.255 10.2.0.0 0.0.255.255
+access-list 100 deny ip 10.1.0.0 0.0.255.255 10.3.0.0 0.0.255.255
+access-list 100 permit ip 10.1.0.0 0.0.255.255 any
+
+ip nat inside source list 100 pool R1_POOL overload
+
+ip route 10.2.0.0 255.255.0.0 192.168.1.2
+ip route 10.3.0.0 255.255.0.0 192.168.1.2
+ip route 0.0.0.0 0.0.0.0 99.99.90.1
+
+
+
+
+
+
+
+
+
+
+!router ospf 1
+!        router-id 1.1.1.1
+!        network 192.168.1.0 0.0.0.3 area 0
+!        network 10.1.0.0 0.0.255.255 area 0
+!        network 193.128.40.0 0.0.0.15 area 0
+!        exit
+
+!DINAMIC
+!ip access-list standard NAT-LAN
+!deny 10.1.130.10
+!deny 10.1.130.20
+!permit 10.1.0.0 0.0.255.255
+!ip nat pool NATPOOL 193.128.40.3 193.128.40.14 netmask 255.255.255.240
+!ip nat inside source list NAT-LAN pool NATPOOL overload
+
+!STATIC
+!ip nat inside source static 10.1.130.10 193.128.40.1
+!ip nat inside source static 10.1.130.20 193.128.40.2
+
+
+!NAT ACL
+!ip access-list extended NAT-EXEMPT
+! deny   ip 10.1.0.0 0.0.255.255 10.2.0.0 0.0.255.255
+! deny   ip 10.1.0.0 0.0.255.255 10.3.0.0 0.0.255.255
+! permit ip 10.1.0.0 0.0.255.255 any

@@ -5,16 +5,6 @@ configure terminal
 
 ip route 0.0.0.0 0.0.0.0 99.99.91.1
 
-router ospf 1
-    router-id 2.2.2.2
-    network 10.10.1.0 0.0.0.3 area 0
-    network 10.10.1.4 0.0.0.3 area 0
-    network 192.168.1.0 0.0.0.3 area 0
-    !network 193.128.43.0 0.0.0.15 area 0
-    network 10.2.0.0 0.0.255.255 area 0
-    network 10.3.0.0 0.0.255.255 area 0
-
-
 interface Serial 0/2/1
     ip nat outside
     no shutdown
@@ -35,9 +25,39 @@ interface tunnel0
     tunnel destination 99.99.90.2
 exit
 
+ip nat pool R2_POOL 193.128.43.1 193.128.43.14 netmask 255.255.255.240
+
+access-list 101 deny ip 10.2.0.0 0.0.255.255 10.1.0.0 0.0.255.255
+access-list 101 deny ip 10.3.0.0 0.0.255.255 10.1.0.0 0.0.255.255
+access-list 101 permit ip 10.2.0.0 0.0.255.255 any
+access-list 101 permit ip 10.3.0.0 0.0.255.255 any
+
+ip nat inside source list 101 pool R2_POOL overload
+
+ip route 10.1.0.0 255.255.0.0 192.168.1.1
+
+
+
+
+
 !DINAMIC
-ip access-list standard NAT-LAN
-permit 10.2.0.0 0.0.255.255
-permit 10.3.0.0 0.0.255.255
-ip nat pool NATPOOL 193.128.43.1 193.128.43.14 netmask 255.255.255.240
-ip nat inside source list NAT-LAN pool NATPOOL overload
+!ip access-list standard NAT-LAN
+!permit 10.2.0.0 0.0.255.255
+!permit 10.3.0.0 0.0.255.255
+!ip nat pool NATPOOL 193.128.43.1 193.128.43.14 netmask 255.255.255.240
+!ip nat inside source list NAT-LAN pool NATPOOL overload
+
+!NAT ACL
+!ip access-list extended NAT-EXEMPT
+! deny   ip 10.1.0.0 0.0.255.255 10.2.0.0 0.0.255.255
+! deny   ip 10.1.0.0 0.0.255.255 10.3.0.0 0.0.255.255
+! permit ip 10.1.0.0 0.0.255.255 any
+
+ !router ospf 1
+!    router-id 2.2.2.2
+!    network 10.10.1.0 0.0.0.3 area 0
+!    network 10.10.1.4 0.0.0.3 area 0
+!    network 192.168.1.0 0.0.0.3 area 0
+!    !network 193.128.43.0 0.0.0.15 area 0
+!    network 10.2.0.0 0.0.255.255 area 0
+!    network 10.3.0.0 0.0.255.255 area 0
