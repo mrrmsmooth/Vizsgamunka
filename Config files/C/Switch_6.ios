@@ -1,0 +1,37 @@
+switch_6
+
+enable
+configure terminal
+sdm prefer dual-ipv4-and-ipv6 default
+exit
+reload
+
+enable
+configure terminal
+
+vlan 110
+    name Management
+in vlan 110
+    ip address 10.1.110.2 255.255.255.0
+    ipv6 address 2a02:ab8:4521:110::2/64
+vlan 120
+    name Cash
+in vlan 120
+    exit
+vlan 130
+    name wifi
+in vlan 130
+    exit
+
+
+ip default-gateway 10.1.110.1
+
+interface range fastEthernet 0/1-24
+    switchport mode access
+    switchport access vlan 120
+interface gigabitEthernet 0/1
+    switchport mode trunk
+    swichport trunk allow vlan 110,120,130
+interface gigabitEthernet 0/2
+    switchport mode access
+    switchport access vlan 130

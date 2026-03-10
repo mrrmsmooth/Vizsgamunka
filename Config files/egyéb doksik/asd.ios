@@ -420,31 +420,30 @@ ipv6 unicast-routing
 
 interface gigabitEthernet 0/0/0
     ipv6 enable
-no shutdown
+    no shutdown
 ip address 99.99.92.2 255.255.255.252
-exit
+    exit
 interface gigabitEthernet 0/0
     ipv6 enable
-    ipv6 address 2a00:1aa8:af14:8b3d::1/64
 no shutdown
 interface gigabitEthernet 0/0.110
-    ipv6 enable
-    ipv6 address 2a00:10b8:abdd:0110::1/64
     encapsulation dot1Q 110
+    ipv6 enable
+    ipv6 address 2a02:ab8:4521:110::/64
     ip address 10.1.110.1 255.255.255.0
 interface gigabitEthernet 0/0.120
-    ipv6 enable
-    ipv6 address 2a00:10b8:abdd:0120::1/64
     encapsulation dot1Q 120
+    ipv6 enable
+    ipv6 address 2a02:ab8:4521:120::/64
     ip address 10.1.120.1 255.255.255.0
 interface gigabitEthernet 0/0.130
-    ipv6 enable
-    ipv6 address 2a00:10b8:abdd:0130::1/64
     encapsulation dot1Q 130
+    ipv6 enable
+    ipv6 address 2a02:ab8:4521:130::/64
     ip address 10.1.130.1 255.255.255.0
     
 
-ipv6 route ::/0 gigabitEthernet0/0
+ipv6 route ::/0 gigabitEthernet0/0/0
 ip route 0.0.0.0 0.0.0.0 203.0.113.42
 
 
