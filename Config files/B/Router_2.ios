@@ -4,19 +4,24 @@ enable
 configure terminal
 
 ip route 0.0.0.0 0.0.0.0 99.99.91.1
+ip route 10.1.0.0 255.255.0.0 192.168.1.1 
 
 interface Serial 0/2/1
-    ip nat outside
-    no shutdown
     ip address 99.99.91.2 255.255.255.0
+    no shutdown
+    ip nat outside
+
 interface Serial 0/3/0
-    ip nat inside
-    no shutdown
     ip address 10.10.1.1 255.255.255.252
-interface Serial 0/3/1
-    ip nat inside
     no shutdown
+    ip nat inside
+    ip ospf network point-to-point
+
+interface Serial 0/3/1
     ip address 10.10.1.5 255.255.255.252
+    no shutdown
+    ip nat inside
+    ip ospf network point-to-point
 exit
 
 interface tunnel0
@@ -25,16 +30,23 @@ interface tunnel0
     tunnel destination 99.99.90.2
 exit
 
-ip nat pool R2_POOL 193.128.43.1 193.128.43.14 netmask 255.255.255.240
+ip access-list standard NAT-LAN
+    permit 10.2.0.0 0.0.255.255
+    permit 10.3.0.0 0.0.255.255
+ip nat pool NATPOOL 193.128.43.1 193.128.43.14 netmask 255.255.255.240
+ip nat inside source list NAT-LAN pool NATPOOL overload
 
-access-list 101 deny ip 10.2.0.0 0.0.255.255 10.1.0.0 0.0.255.255
-access-list 101 deny ip 10.3.0.0 0.0.255.255 10.1.0.0 0.0.255.255
-access-list 101 permit ip 10.2.0.0 0.0.255.255 any
-access-list 101 permit ip 10.3.0.0 0.0.255.255 any
+router ospf 1
+    router-id 2.2.2.2
+    default-information originate
+    network 10.10.1.0 0.0.0.3 area 0
+    network 10.10.1.4 0.0.0.3 area 0
+    passive-interface default
+    no passive-interface Gig0/0
+    no passive-interface Gig0/1
 
-ip nat inside source list 101 pool R2_POOL overload
 
-ip route 10.1.0.0 255.255.0.0 192.168.1.1
+
 
 
 
