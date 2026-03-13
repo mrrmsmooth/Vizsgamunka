@@ -11,7 +11,7 @@ ip address 99.99.92.2 255.255.255.252
     exit
 interface gigabitEthernet 0/0
     ipv6 enable
-no shutdown
+    no shutdown
 interface gigabitEthernet 0/0.110
     encapsulation dot1Q 110
     ipv6 enable
@@ -30,4 +30,29 @@ interface gigabitEthernet 0/0.130
     
 
 ipv6 route ::/0 gigabitEthernet0/0/0
-ip route 0.0.0.0 0.0.0.0 203.0.113.42
+ip route 0.0.0.0 0.0.0.0 99.99.92.1
+
+ip dhcp excluded-address 10.1.120.1
+ip dhcp excluded-address 10.1.130.1
+
+ip dhcp pool belso
+        network 10.1.120.0 255.255.255.0
+        default-router 10.1.120.1
+        dns-server 193.128.40.1
+
+ip dhcp pool wifi
+        network 10.1.130.0 255.255.255.0
+        default-router 10.1.130.1
+        dns-server 193.128.40.1
+
+ip access-list extended ONLY_OUTSIDE_WIFI
+    permit udp any any eq 67
+    permit udp any any eq 68
+    permit udp 10.1.130.0 0.0.0.255 host 193.128.40.1 eq domain
+    deny ip 10.1.130.0 0.0.0.255 10.0.0.0 0.255.255.255
+    permit ip 10.1.130.0 0.0.0.255 any
+    exit
+
+interface gigabitEthernet 0/0.130
+    ip access-group ONLY_OUTSIDE_WIFI in
+    exit
