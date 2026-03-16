@@ -2,6 +2,52 @@ Switch_3
 
 enable
 configure terminal
+
+hostname SW3
+
+banner motd ^
+***************************************************************************
+** **
+** _______  _    _ _____   ____  ______  _______ _   __      _______  **
+** |__   __| |  | |  __ \ / __ \|  ____||  ___  | |  \ \    / /_   _| **
+**    | |  | |  | | |__) | |  | | |__   | |   | | |   \ \  / /  | |   **
+**    | |  | |  | |  _  /| |  | |  __|  | |___| | |    \ \/ /   | |   **
+**    | |  | |__| | | \ \| |__| | |     |  ___  | |__   \  /   _| |_  **
+**    |_|   \____/|_|  \_\\____/|_|     |_|   |_|______| \/   |_____| **
+** **
+** - ETTEREM ES MANUFAKTURA -                           **
+** **
+***************************************************************************
+** **
+** FIGYELEM!                                                            **
+** Ez az eszkoz a TUROFALVI ETTEREM kizarolagos tulajdona.              **
+** **
+** CSAK AUTORIZALT (JOGOSULT) BELEPES ENGEDELYEZETT!                    **
+** **
+** A rendszeren vegzett minden tevekenyseget naplozzuk es monitorozzuk. **
+** Az illetektelen hozzaferesi kiserlet jogi kovetkezmenyeket von       **
+** maga utan a hatalyos jogszabalyok alapjan.                           **
+** **
+** Amennyiben nincs belepesi jogosultsaga, KERJUK AZONNAL SZAKITSA      **
+** MEG A KAPCSOLATOT!                                                   **
+** **
+***************************************************************************
+^
+
+ip access-list standard SSH-ACCESS
+        permit 10.1.120.0 0.0.0.255
+
+ip domain-name ssh.local
+username admin secret cisco123
+crypto key generate rsa
+ip ssh version 2
+
+line vty 0 4
+        login local
+        transport input ssh
+        access-class SSH-ACCESS in
+        exit
+
 vlan 110
 name Management
 in vlan 110

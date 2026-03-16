@@ -4,6 +4,8 @@ enable
 configure terminal
 ipv6 unicast-routing
 
+hostname ISP
+
 interface Serial 0/1/0
 no shutdown
 ip address 99.99.90.1 255.255.255.0
