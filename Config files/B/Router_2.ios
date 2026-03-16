@@ -7,30 +7,31 @@ hostname R2
 
 banner motd ^
 ***************************************************************************
-** **
-** _______  _    _ _____   ____  ______  _______ _   __      _______  **
-** |__   __| |  | |  __ \ / __ \|  ____||  ___  | |  \ \    / /_   _| **
-**    | |  | |  | | |__) | |  | | |__   | |   | | |   \ \  / /  | |   **
-**    | |  | |  | |  _  /| |  | |  __|  | |___| | |    \ \/ /   | |   **
-**    | |  | |__| | | \ \| |__| | |     |  ___  | |__   \  /   _| |_  **
-**    |_|   \____/|_|  \_\\____/|_|     |_|   |_|______| \/   |_____| **
-** **
-** - ETTEREM ES MANUFAKTURA -                           **
-** **
+**=======================================================================**
+**   _______ _    _ _____   ____  ______  _______ _   __      _______    **
+**  |__   __| |  | |  __ \ / __ \|  ____||  ___  | |  \ \    / /_   _|   **
+**     | |  | |  | | |__) | |  | | |__   | |   | | |   \ \  / /  | |     **
+**     | |  | |  | |  _  /| |  | |  __|  | |___| | |    \ \/ /   | |     **
+**     | |  | |__| | | \ \| |__| | |     |  ___  | |__   \  /   _| |_    **
+**     |_|   \____/|_|  \_\\____/|_|     |_|   |_|______| \/   |_____|   **
+**=======================================================================**
+**                      --------------------------                       **
+**                      | ETTEREM ES MANUFAKTURA |                       **
+**                      --------------------------                       **
 ***************************************************************************
-** **
-** FIGYELEM!                                                            **
-** Ez az eszkoz a TUROFALVI ETTEREM kizarolagos tulajdona.              **
-** **
-** CSAK AUTORIZALT (JOGOSULT) BELEPES ENGEDELYEZETT!                    **
-** **
-** A rendszeren vegzett minden tevekenyseget naplozzuk es monitorozzuk. **
-** Az illetektelen hozzaferesi kiserlet jogi kovetkezmenyeket von       **
-** maga utan a hatalyos jogszabalyok alapjan.                           **
-** **
-** Amennyiben nincs belepesi jogosultsaga, KERJUK AZONNAL SZAKITSA      **
-** MEG A KAPCSOLATOT!                                                   **
-** **
+**                                                                       **
+** FIGYELEM!                                                             **
+** Ez az eszkoz a TUROFALVI ETTEREM kizarolagos tulajdona.               **
+**                                                                       **
+** CSAK AUTORIZALT (JOGOSULT) BELEPES ENGEDELYEZETT!                     **
+**                                                                       **
+** A rendszeren vegzett minden tevekenyseget naplozzuk es monitorozzuk.  **
+** Az illetektelen hozzaferesi kiserlet jogi kovetkezmenyeket von        **
+** maga utan a hatalyos jogszabalyok alapjan.                            **
+**                                                                       **
+** Amennyiben nincs belepesi jogosultsaga, KERJUK AZONNAL SZAKITSA       **
+** MEG A KAPCSOLATOT!                                                    **
+**                                                                       **
 ***************************************************************************
 ^
 
