@@ -1,0 +1,12 @@
+tesztek:
+pingek tunnelen
+pingek két nat hálózat között
+pingek statikus nat címet
+nat címfordítás
+tunnel
+dhcp server
+wifi
+wifi elutasítás
+weboldalelérés
+ssh
+ssh elutasítás
