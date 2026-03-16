@@ -4,13 +4,13 @@ enable
 configure terminal
 ipv6 unicast-routing
 
-interface Serial 0/3/0
+interface Serial 0/1/0
 no shutdown
 ip address 99.99.90.1 255.255.255.0
-interface Serial 0/3/1
+interface Serial 0/2/0
 no shutdown
 ip address 99.99.91.1 255.255.255.0
-interface Serial 0/2/0
+interface Serial 0/1/1
 no shutdown
 ip address 99.99.92.1 255.255.255.0
 ipv6 address 7a4c:15e9::1/126

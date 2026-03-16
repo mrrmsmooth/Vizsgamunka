@@ -42,8 +42,8 @@ router ospf 1
     network 10.10.1.0 0.0.0.3 area 0
     network 10.10.1.4 0.0.0.3 area 0
     passive-interface default
-    no passive-interface Gig0/0
-    no passive-interface Gig0/1
+    no passive-interface Serial 0/3/0
+    no passive-interface Serial 0/3/1
 
 
 
