@@ -1,0 +1,26 @@
+enable
+configure terminal
+
+hostname SW1   ! vagy SW2 stb.
+
+interface vlan 120
+ ip address 10.1.120.2 255.255.255.0
+ no shutdown
+exit
+
+ip default-gateway 10.1.120.1
+
+ip domain-name lab.local
+crypto key generate rsa modulus 2048
+
+username admin privilege 15 secret admin123
+
+ip ssh version 2
+
+line vty 0 4
+transport input ssh
+login local
+exit
+
+end
+write memory
