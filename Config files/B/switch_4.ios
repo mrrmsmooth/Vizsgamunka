@@ -36,7 +36,10 @@ banner motd ^
 ^
 
 ip access-list standard SSH-ACCESS
-        permit 10.1.125.0 0.0.0.255
+        permit 10.1.120.0 0.0.0.255
+        permit 10.1.130.0 0.0.0.255
+        permit 10.2.125.0 0.0.0.255
+        exit
 
 ip domain-name ssh.local
 username admin secret cisco123
